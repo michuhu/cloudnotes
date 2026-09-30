@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block content %}
+<p class="error">Zależność <strong>{{ dependency }}</strong> jest chwilowo niedostępna. Aplikacja działa, ale nie może obsłużyć tego żądania.</p>
+<p>Sprawdź <a href="/health">/health</a> oraz logi aplikacji.</p>
+{% endblock %}

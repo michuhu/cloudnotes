@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+{% if message %}<p class="message">{{ message }}</p>{% endif %}
+
+<form class="new" method="post" action="/notes" enctype="multipart/form-data">
+  <input type="text" name="title" placeholder="Tytuł" required>
+  <textarea name="content" rows="3" placeholder="Treść notatki" required></textarea>
+  <input type="file" name="attachment">
+  <button type="submit">Dodaj notatkę</button>
+</form>
+
+<h2>Notatki ({{ notes|length }})</h2>
+{% for note in notes %}
+<div class="note">
+  <h3>{{ note.title }}</h3>
+  <div class="meta">#{{ note.id }} | {{ note.created_at }}</div>
+  <p>{{ note.content }}</p>
+  <div class="actions">
+    {% if note.attachment %}<a href="/files/{{ note.attachment }}">Załącznik</a>{% endif %}
+    {% if note.has_report %}
+    <a href="/notes/{{ note.id }}/report">Raport</a>
+    {% else %}
+    <form method="post" action="/notes/{{ note.id }}/report"><button type="submit">Generuj raport</button></form>
+    {% endif %}
+    <form method="post" action="/notes/{{ note.id }}/delete"><button type="submit">Usuń</button></form>
+  </div>
+</div>
+{% else %}
+<p>Brak notatek.</p>
+{% endfor %}
+{% endblock %}
