@@ -12,7 +12,7 @@ Pliki `*.env` w checkpointach są szablonami. Wartości w nawiasach ostrych, np.
 
 Polecenia odtwarzające zasoby dla każdego checkpointu są częścią instrukcji odpowiedniego laboratorium (`labs/NN-*/material.md`, sekcja o stanie startowym).
 
-Nazwy zasobów są zgodne z [shared/conventions.md](../../shared/conventions.md).
+Nazwy zasobów są zgodne z konwencjami kursu (Resource Group projektu: `rg-cloudnotes-$SUFFIX`).
 
 ## cp02-vm
 
@@ -105,7 +105,7 @@ Users -> App Service -> Queue (report-jobs) -> Function
             +------ Application Insights
 ```
 
-Nowe zasoby: kolejka `report-jobs` w `stcloudnotes$SUFFIX`, Function App `func-cloudnotes-$SUFFIX` z kodem z `project/function/`.
+Nowe zasoby: kolejka `report-jobs` w `stcloudnotes$SUFFIX`, Function App `func-cloudnotes-$SUFFIX` z kodem z katalogu `function/`.
 
 Konfiguracja aplikacji nie zmienia się względem cp09, bo kolejka korzysta z tego samego Storage Account. Konfiguracja Function App: [cp10-queue-function/function-settings.env](cp10-queue-function/function-settings.env).
 

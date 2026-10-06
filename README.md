@@ -2,6 +2,15 @@
 
 CloudNotes to prosta aplikacja webowa do notatek. Użytkownik dodaje notatkę, opcjonalnie dołącza plik i może zlecić wygenerowanie raportu z notatki.
 
+Repozytorium dla studentów: https://github.com/pwmasta/cloud
+
+```bash
+git clone https://github.com/pwmasta/cloud.git ~/cloudnotes
+cd ~/cloudnotes/src
+```
+
+Wszystkie ścieżki w tym pliku są podane względem katalogu głównego repozytorium.
+
 Kod aplikacji jest tylko narzędziem do nauki chmury. Studenci nie muszą go rozwijać. Podczas laboratoriów zmieniamy przede wszystkim **infrastrukturę i konfigurację**, a nie kod.
 
 ## Najważniejsza idea: jeden kod, konfiguracja wybiera usługi
@@ -23,7 +32,7 @@ Stopka każdej strony pokazuje identyfikator instancji, czas jej uruchomienia, l
 ## Struktura katalogów
 
 ```text
-project/
+cloudnotes/
   README.md
   src/                    aplikacja webowa CloudNotes (Flask)
     app.py                endpointy HTTP
@@ -92,7 +101,7 @@ Kolejność ma znaczenie dydaktyczne. W L04 i L05 sekrety są jeszcze jawnie w A
 Wymagany jest Python 3.10 lub nowszy.
 
 ```bash
-cd project/src
+cd src
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
@@ -120,7 +129,7 @@ Nie trzeba ustawiać własnej komendy startowej. Zależności z `requirements.tx
 ## Kontener
 
 ```bash
-cd project/src
+cd src
 docker build -t cloudnotes:local .
 docker run --rm -p 8000:8000 -e APP_ENVIRONMENT=container cloudnotes:local
 ```
@@ -144,13 +153,13 @@ Aplikacja wysyła wiadomości zakodowane w Base64, bo tego domyślnie oczekuje q
 Katalog `dev/` pozwala sprawdzić cały tryb chmurowy bez subskrypcji Azure. PostgreSQL działa w kontenerze, Azurite emuluje Blob i Queue, a host Azure Functions działa na oficjalnym obrazie.
 
 ```bash
-cd project/dev
+cd dev
 docker compose up -d
 docker compose --profile function up -d function
 ```
 
 ```bash
-cd project/src
+cd src
 source .venv/bin/activate
 export DATABASE_URL="postgresql://cloudnotes:cloudnotes@localhost:5432/cloudnotes"
 export STORAGE_CONNECTION_STRING="UseDevelopmentStorage=true"
@@ -163,7 +172,7 @@ Na komputerach z procesorem ARM obraz Functions działa w emulacji `linux/amd64`
 Sprzątanie:
 
 ```bash
-cd project/dev
+cd dev
 docker compose --profile function down
 ```
 
