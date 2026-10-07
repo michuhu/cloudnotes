@@ -1,0 +1,27 @@
+# System
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Sekrety i konfiguracja lokalna
+.env
+*.local.env
+local.settings.json
+
+# Azure Functions
+function/.python_packages/
+function/bin/
+function/obj/
+
+# Azurite (lokalne dane emulatora)
+__azurite_db_*.json
+__blobstorage__/
+__queuestorage__/
+
+# Edytory
+.vscode/
+.idea/
