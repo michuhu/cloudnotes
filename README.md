@@ -103,9 +103,8 @@ Wymagany jest Python 3.10 lub nowszy.
 ```bash
 cd src
 python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-python3 app.py
+.venv/bin/pip install -r requirements.txt
+.venv/bin/python app.py
 ```
 
 Aplikacja działa pod adresem `http://localhost:5000`.
@@ -113,7 +112,7 @@ Aplikacja działa pod adresem `http://localhost:5000`.
 Serwer produkcyjny, tak jak w App Service i w kontenerze:
 
 ```bash
-gunicorn --bind 0.0.0.0:8000 app:app
+.venv/bin/gunicorn --bind 0.0.0.0:8000 app:app
 ```
 
 ## Uruchomienie w App Service
@@ -160,11 +159,7 @@ docker compose --profile function up -d function
 
 ```bash
 cd src
-source .venv/bin/activate
-export DATABASE_URL="postgresql://cloudnotes:cloudnotes@localhost:5432/cloudnotes"
-export STORAGE_CONNECTION_STRING="UseDevelopmentStorage=true"
-export APP_ENVIRONMENT=dev-cloud
-gunicorn --bind 127.0.0.1:8000 app:app
+DATABASE_URL="postgresql://cloudnotes:cloudnotes@localhost:5432/cloudnotes" STORAGE_CONNECTION_STRING="UseDevelopmentStorage=true" APP_ENVIRONMENT=dev-cloud .venv/bin/gunicorn --bind 127.0.0.1:8000 app:app
 ```
 
 Na komputerach z procesorem ARM obraz Functions działa w emulacji `linux/amd64`, więc startuje wolniej.
