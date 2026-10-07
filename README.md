@@ -2,10 +2,10 @@
 
 CloudNotes to prosta aplikacja webowa do notatek. Użytkownik dodaje notatkę, opcjonalnie dołącza plik i może zlecić wygenerowanie raportu z notatki.
 
-Repozytorium dla studentów: https://github.com/pwmasta/cloud
+Repozytorium dla studentów: https://github.com/michuhu/cloudnotes
 
 ```bash
-git clone https://github.com/pwmasta/cloud.git ~/cloudnotes
+git clone https://github.com/michuhu/cloudnotes.git ~/cloudnotes
 cd ~/cloudnotes/src
 ```
 
