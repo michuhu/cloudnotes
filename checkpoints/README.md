@@ -47,13 +47,15 @@ Po L03. Aplikacja działa w trybie lokalnym, więc dane są w `/tmp` instancji i
 Client -> App Service (CloudNotes, SQLite i pliki w /tmp)
 ```
 
-Zasoby w `rg-cloudnotes`: App Service Plan `plan-cloudnotes-<SUFFIX>`, Web App `app-cloudnotes-<SUFFIX>`.
+Zasoby w `rg-cloudnotes`: App Service Plan `plan-cloudnotes-<SUFFIX>` (Linux, F1 Free; wariant awaryjny B1, usuwany po zajęciach), Web App `app-cloudnotes-<SUFFIX>` (runtime `PYTHON:3.12`, `--https-only true`).
 
-Konfiguracja:
+Konfiguracja. `SCM_DO_BUILD_DURING_DEPLOYMENT=true` włącza instalację zależności podczas wdrożenia paczki ZIP:
 
 ```bash
-az webapp config appsettings set --resource-group rg-cloudnotes --name app-cloudnotes-<SUFFIX> --settings APP_ENVIRONMENT=app-service
+az webapp config appsettings set --resource-group rg-cloudnotes --name app-cloudnotes-<SUFFIX> --settings APP_ENVIRONMENT=app-service SCM_DO_BUILD_DURING_DEPLOYMENT=true
 ```
+
+Pełna lista poleceń odtwarzających ten stan: `labs/03-app-service/material.md`, sekcja „Odtworzenie stanu cp03-app-service”.
 
 ## cp04-blob
 

@@ -123,7 +123,7 @@ App Service dla Pythona wykrywa plik `app.py` z obiektem `app` i uruchamia Gunic
 gunicorn --bind=0.0.0.0 --timeout 600 app:app
 ```
 
-Nie trzeba ustawiać własnej komendy startowej. Zależności z `requirements.txt` instaluje build Oryx podczas wdrożenia. Po buildzie aplikacja działa z katalogu `/tmp/<uid>`, a nie z `/home/site/wwwroot`.
+Nie trzeba ustawiać własnej komendy startowej. Zależności z `requirements.txt` instaluje build Oryx podczas wdrożenia. Przy wdrożeniu paczki ZIP (`az webapp deploy --type zip`) build trzeba włączyć App Setting `SCM_DO_BUILD_DURING_DEPLOYMENT=true` (L03). Po buildzie aplikacja działa z katalogu `/tmp/<uid>`, a nie z `/home/site/wwwroot`.
 
 ## Kontener
 
