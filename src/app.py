@@ -26,7 +26,7 @@ attachments = create_file_store(setting("ATTACHMENTS_CONTAINER", "attachments"),
 report_files = create_file_store(setting("REPORTS_CONTAINER", "reports"), DATA_DIR)
 reports = ReportService(
     report_files,
-    setting("REPORT_QUEUE", "report-jobs"),
+    setting("REPORT_QUEUE"),
     float(setting("REPORT_DELAY_SECONDS", "5")),
     INSTANCE,
 )
