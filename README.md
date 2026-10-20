@@ -21,7 +21,7 @@ Aplikacja ma jeden kod przez cały semestr. To, z jakich usług korzysta, zależ
 | --- | --- | --- | --- |
 | notatki | SQLite na dysku instancji | PostgreSQL (`DATABASE_URL`) | L05 |
 | załączniki i raporty | pliki na dysku instancji | Blob Storage (`STORAGE_CONNECTION_STRING` albo `STORAGE_ACCOUNT_NAME`) | L04 |
-| raporty | generowane synchronicznie w żądaniu HTTP | wiadomość w Storage Queue i przetwarzanie w Azure Function | L10 |
+| raporty | generowane synchronicznie w żądaniu HTTP | wiadomość w Storage Queue i przetwarzanie w Azure Function (`REPORT_QUEUE`) | L10 |
 | sekrety | zmienne środowiskowe | Key Vault przez managed identity (`KEY_VAULT_URL`) | L08 |
 | telemetria | tylko logi na stdout | Application Insights (`APPLICATIONINSIGHTS_CONNECTION_STRING`) | L09 |
 
@@ -82,7 +82,7 @@ Endpointy `/debug/*` istnieją wyłącznie do ćwiczeń. W prawdziwej aplikacji 
 | `STORAGE_ACCOUNT_NAME` | nazwa Storage Account przy dostępie przez managed identity | brak |
 | `ATTACHMENTS_CONTAINER` | container na załączniki | `attachments` |
 | `REPORTS_CONTAINER` | container na raporty | `reports` |
-| `REPORT_QUEUE` | kolejka zleceń raportów | `report-jobs` |
+| `REPORT_QUEUE` | nazwa kolejki zleceń raportów, np. `report-jobs`. Włącza tryb asynchroniczny | brak, czyli raport synchroniczny |
 | `REPORT_DELAY_SECONDS` | sztuczny czas generowania raportu | `5` |
 | `KEY_VAULT_URL` | adres Key Vault, np. `https://kv-cloudnotes-jkow42.vault.azure.net/` | brak |
 | `APPLICATIONINSIGHTS_CONNECTION_STRING` | włącza wysyłanie telemetrii | brak |
@@ -92,7 +92,7 @@ Zasady rozstrzygania:
 
 - Jeżeli ustawiono `STORAGE_CONNECTION_STRING`, aplikacja używa klucza konta. W przeciwnym razie, jeśli ustawiono `STORAGE_ACCOUNT_NAME`, używa tożsamości (`DefaultAzureCredential`).
 - Wartości `DATABASE_URL` i `STORAGE_CONNECTION_STRING` są sekretami. Aplikacja szuka ich najpierw w zmiennych środowiskowych. Jeżeli ich tam nie ma, a ustawiono `KEY_VAULT_URL`, pobiera z Key Vault sekrety `database-url` i `storage-connection-string`.
-- Kolejka jest włączana razem ze Storage Account. Bez skonfigurowanego Storage raporty są generowane synchronicznie.
+- Kolejkę włącza dopiero ustawienie `REPORT_QUEUE` (L10) przy skonfigurowanym Storage Account. Bez niego raporty są generowane synchronicznie, a w trybie Blob trafiają do containera `reports`. Dzięki temu na L04-L09 raporty działają, choć Function jeszcze nie istnieje.
 
 Kolejność ma znaczenie dydaktyczne. W L04 i L05 sekrety są jeszcze jawnie w App Settings. W L08 studenci przenoszą je do Key Vault i usuwają z App Settings bez zmiany kodu.
 

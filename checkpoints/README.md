@@ -65,13 +65,15 @@ Po L04. Załączniki i raporty są w Blob Storage. Notatki nadal są w lokalnym 
 Client -> App Service -> Blob Storage
 ```
 
-Nowe zasoby: Storage Account `stcloudnotes<SUFFIX>` z containerami `attachments` i `reports`.
+Nowe zasoby: Storage Account `stcloudnotes<SUFFIX>` (StorageV2, Standard_LRS, Hot, bez dostępu anonimowego, TLS 1.2) z containerami `attachments` i `reports`. Raporty są generowane synchronicznie i zapisywane w containerze `reports`.
 
-Konfiguracja:
+Konfiguracja. `--output none` zapobiega wypisaniu sekretu na ekran:
 
 ```bash
-az webapp config appsettings set --resource-group rg-cloudnotes --name app-cloudnotes-<SUFFIX> --settings APP_ENVIRONMENT=app-service STORAGE_CONNECTION_STRING="<CONNECTION_STRING_STORAGE_ACCOUNT>"
+az webapp config appsettings set --resource-group rg-cloudnotes --name app-cloudnotes-<SUFFIX> --settings APP_ENVIRONMENT=app-service STORAGE_CONNECTION_STRING="<CONNECTION_STRING_STORAGE_ACCOUNT>" --output none
 ```
+
+Pełna lista poleceń odtwarzających ten stan: `labs/04-blob-storage/material.md`, sekcja „Odtworzenie stanu cp04-blob”.
 
 ## cp05-database
 
@@ -152,7 +154,13 @@ Users -> App Service -> Queue (report-jobs) -> Function
 
 Nowe zasoby: kolejka `report-jobs` w `stcloudnotes<SUFFIX>`, Function App `func-cloudnotes-<SUFFIX>` z kodem z katalogu `function/`.
 
-Konfiguracja aplikacji nie zmienia się względem cp09, bo kolejka korzysta z tego samego Storage Account. Konfiguracja Function App:
+Kolejka korzysta z tego samego Storage Account. Aplikacja dostaje jedno nowe ustawienie, `REPORT_QUEUE`, które przełącza raporty z trybu synchronicznego na kolejkę:
+
+```bash
+az webapp config appsettings set --resource-group rg-cloudnotes --name app-cloudnotes-<SUFFIX> --settings REPORT_QUEUE=report-jobs
+```
+
+Konfiguracja Function App:
 
 ```bash
 az functionapp config appsettings set --resource-group rg-cloudnotes --name func-cloudnotes-<SUFFIX> --settings CLOUDNOTES_STORAGE="<CONNECTION_STRING_STORAGE_ACCOUNT>" REPORT_DELAY_SECONDS=5 APPLICATIONINSIGHTS_CONNECTION_STRING="<CONNECTION_STRING_APPLICATION_INSIGHTS>"

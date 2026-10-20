@@ -38,7 +38,7 @@ class ReportService:
         self.delay_seconds = delay_seconds
         self.instance = instance
         self.queue = None
-        service = storage_client("queue")
+        service = storage_client("queue") if queue_name else None
         if service is not None:
             from azure.core.exceptions import AzureError, ResourceExistsError
             from azure.storage.queue import TextBase64EncodePolicy
